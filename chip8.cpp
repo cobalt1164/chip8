@@ -24,7 +24,9 @@ void chip8::initialize() {
     key[i] = 0;
   }
 
-  // TODO: Load fontset
+  // Load font into first area of memory
+  for (int i = 0; i < 80; i++)
+    memory[i] = chip8_fontset[i];
 }
 
 void chip8::loadGame(char fname[]) {

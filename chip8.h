@@ -1,37 +1,57 @@
 class chip8 {
-  private:
-    // Store current opcode
-    unsigned short opcode;
+private:
+  // Font data
+  unsigned char chip8_fontset[80] = {
+      0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+      0x20, 0x60, 0x20, 0x20, 0x70, // 1
+      0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+      0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+      0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+      0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+      0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+      0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+      0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+      0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+      0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+      0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+      0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+      0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+      0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+      0xF0, 0x80, 0xF0, 0x80, 0x80  // F
+  };
 
-    // CHIP-8 has 4096 memory slots, 1 byte each
-    unsigned char memory[4096];
+  // Store current opcode
+  unsigned short opcode;
 
-    // Store flags. 16th flag is carry flag
-    unsigned char V[16];
+  // CHIP-8 has 4096 memory slots, 1 byte each
+  unsigned char memory[4096];
 
-    // Index register I, program counter pc
-    // Values from 0x000 to 0xFFF
-    unsigned short I;
-    unsigned short pc;
+  // Store flags. 16th flag is carry flag
+  unsigned char V[16];
 
-    // Screen size of CHIP-8 is 64x32
-    unsigned char gfx[2048];
+  // Index register I, program counter pc
+  // Values from 0x000 to 0xFFF
+  unsigned short I;
+  unsigned short pc;
 
-    // Used for timing. Counts down by 60hz
-    unsigned char delay_timer;
+  // Screen size of CHIP-8 is 64x32
+  unsigned char gfx[2048];
 
-    // Used for sound. When nonzero, beep
-    unsigned char sound_timer;
+  // Used for timing. Counts down by 60hz
+  unsigned char delay_timer;
 
-    // 16 level stack
-    unsigned short stack[16];
-    unsigned short sp;
+  // Used for sound. When nonzero, beep
+  unsigned char sound_timer;
 
-    // 0x0-0xF. Hex based keypad
-    unsigned char key[16];
+  // 16 level stack
+  unsigned short stack[16];
+  unsigned short sp;
 
-  public:
-    void initialize();
-    void emulateCycle();
-    void loadGame(char fname[]);
+  // 0x0-0xF. Hex based keypad
+  unsigned char key[16];
+
+public:
+  void initialize();
+  void emulateCycle();
+  void loadGame(char fname[]);
 };
