@@ -49,6 +49,7 @@ private:
 
   // 0x0-0xF. Hex based keypad
   unsigned char key[16];
+  bool drawFlag;
 
 public:
   void initialize();
