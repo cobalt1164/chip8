@@ -49,5 +49,9 @@ void chip8::loadGame(char fname[]) {
 }
 
 void chip8::emulateCycle() {
+  // Fetch (opcode at pc + opcode at (pc+1) )
+  opcode = memory[pc] << 8 | memory[pc + 1];
+  switch (opcode) {
 
+  }
 }
