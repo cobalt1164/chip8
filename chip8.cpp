@@ -184,15 +184,30 @@ void chip8::emulateCycle() {
       pc += 2;
     break;
 
-    case 0xD000: { // DXYN: Draw at VX, VY, N high
+    case 0xD000: { // DXYN: 
+     /*
+      Draws a sprite at coordinate (VX, VY) that has a width of 8 
+      pixels and a height of N pixels. Each row of 8 pixels is read
+      as bit-coded starting from memory location I; I value does not
+      change after the execution of this instruction. As described above,
+      VF is set to 1 if any screen pixels are flipped from set to unset
+      when the sprite is drawn, and to 0 if that does not happen.
+      */
       unsigned short VX = V[(opcode & 0x0F00) >> 8];
       unsigned short VY = V[(opcode & 0x00F0) >> 4];
       unsigned short N = opcode & 0x000F;
+
+      V[0xF] = 0; // reset VF
       for (int j = 0; j < N; j++) {
         for (int i = 0; i < 8; i++) {
-          
+          unsigned char sprite = memory[I + j] << i;
+          if (gfx[(64 * j) + (64 * VY) + i + VX] == 1 && (sprite & 0x80) == 1)
+            V[0xF] = 1; // carry flag, collision detection
+          gfx[(64 * j) + (64 * VY) + i + VX] ^= (sprite & 0x80);
         }
       }
+      drawFlag = true;
+      pc += 2;
     }
       
     break;
