@@ -1,0 +1,49 @@
+# Build & Binary Output Directories
+build/
+bin/
+out/
+
+# Executables, Objects, and Libraries
+*.exe
+*.dll
+*.so
+*.dylib
+*.app/
+*.obj
+*.o
+*.a
+*.lib
+*.pdb
+*.idb
+
+# CMake Generated Files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Visual Studio & IDE Caches
+.vs/
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
+*.sln
+*.dir/
+
+# Qt Creator & Qt Settings
+*.user
+*.user.*
+.qt/
+.qtc_settings/
+aqtinstall.log
+
+# VS Code & JetBrains CLion
+.vscode/
+.idea/
+cmake-build-*/
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+Desktop.ini
