@@ -156,39 +156,9 @@ protected:
         // Pause Overlay Indicator
         if (m_isPaused) {
             painter.setPen(QColor(255, 70, 70));
-            QFont pauseFont("Segoe UI", 14, QFont::Bold);
+            QFont pauseFont("Segoe UI", 16, QFont::Bold);
             painter.setFont(pauseFont);
-            painter.drawText(15, 30, "[PAUSED - Press F10 to Step]");
-        }
-
-        // Live Opcode & Register Debug HUD Banner
-        if (m_chip8 && m_romLoaded) {
-            unsigned short pc = m_chip8->pc;
-            if (pc < 4095) {
-                unsigned short op = (m_chip8->memory[pc] << 8) | m_chip8->memory[pc + 1];
-                QString disasm = DisassembleOpcode(op);
-
-                int hudHeight = 36;
-                QRect hudRect(10, height() - hudHeight - 10, width() - 20, hudHeight);
-
-                // Semi-transparent dark overlay container with rounded border
-                painter.setPen(QColor(0, 240, 255, 180));
-                painter.setBrush(QColor(10, 10, 18, 220));
-                painter.drawRoundedRect(hudRect, 6, 6);
-
-                painter.setPen(QColor(240, 240, 245));
-                QFont debugFont("Consolas", 11, QFont::Bold);
-                painter.setFont(debugFont);
-
-                QString debugText = QString("PC: 0x%1  |  NEXT OP: 0x%2 -> %3  |  I: 0x%4  |  SP: %5")
-                    .arg(pc, 4, 16, QChar('0')).toUpper()
-                    .arg(op, 4, 16, QChar('0')).toUpper()
-                    .arg(disasm)
-                    .arg(m_chip8->I, 4, 16, QChar('0')).toUpper()
-                    .arg(m_chip8->sp);
-
-                painter.drawText(hudRect, Qt::AlignCenter, debugText);
-            }
+            painter.drawText(15, 30, "[PAUSED]");
         }
     }
 };

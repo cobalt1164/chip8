@@ -201,8 +201,79 @@ void chip8::emulateCycle() {
     }
     break;
 
+    case 0xE:
+      switch (NN) {
+        case 0x9E: // EX9E: Skips the next instruction if key stored in VX is pressed.
+          if (key[VX & 0x0F] != 0)
+            pc += 2;
+        break;
+
+        case 0xA1: // EXA1: Skips the next instruction if key stored in VX is not pressed.
+          if (key[VX & 0x0F] == 0)
+            pc += 2;
+        break;
+      }
+    break;
+
+    case 0xF:
+      switch (NN) {
+        case 0x07: // FX07: Sets VX to the value of the delay timer.
+          V[X] = delay_timer;
+        break;
+
+        case 0x0A: { // FX0A: A key press is awaited, and then stored in VX.
+          bool keyPress = false;
+          for (int i = 0; i < 16; ++i) {
+            if (key[i] != 0) {
+              V[X] = i;
+              keyPress = true;
+              break;
+            }
+          }
+          if (!keyPress) {
+            pc -= 2; // Repeat instruction next cycle
+          }
+        }
+        break;
+
+        case 0x15: // FX15: Sets the delay timer to VX.
+          delay_timer = VX;
+        break;
+
+        case 0x18: // FX18: Sets the sound timer to VX.
+          sound_timer = VX;
+        break;
+
+        case 0x1E: // FX1E: Adds VX to I.
+          I += VX;
+        break;
+
+        case 0x29: // FX29: Sets I to the location of the sprite for the character in VX.
+          I = (VX & 0x0F) * 5;
+        break;
+
+        case 0x33: // FX33: Stores the binary-coded decimal representation of VX at memory addresses I, I+1, and I+2.
+          memory[I]     = VX / 100;
+          memory[I + 1] = (VX / 10) % 10;
+          memory[I + 2] = VX % 10;
+        break;
+
+        case 0x55: // FX55: Stores V0 to VX (inclusive) in memory starting at address I.
+          for (int i = 0; i <= X; ++i) {
+            memory[I + i] = V[i];
+          }
+        break;
+
+        case 0x65: // FX65: Fills V0 to VX (inclusive) with values from memory starting at address I.
+          for (int i = 0; i <= X; ++i) {
+            V[i] = memory[I + i];
+          }
+        break;
+      }
+    break;
+
     default:
-      printf("Unknown opcode\n");
+      printf("Unknown opcode: 0x%X\n", opcode);
   }
 
   // Handle Timers
