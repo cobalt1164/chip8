@@ -99,6 +99,7 @@ static QString DisassembleOpcode(unsigned short opcode) {
 
 // Canvas Widget for CHIP-8 Display
 class Chip8Canvas : public QWidget {
+  Q_OBJECT
 public:
     chip8* m_chip8 = nullptr;
     bool m_romLoaded = false;
@@ -562,3 +563,5 @@ int main(int argc, char* argv[]) {
 
     return app.exec();
 }
+
+#include "main_qt.moc"
